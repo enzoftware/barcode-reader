@@ -1,6 +1,7 @@
 package com.projects.enzoftware.barcodereader
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.support.v7.app.AppCompatActivity
@@ -8,6 +9,10 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.util.Log
+import android.util.SparseArray
+import com.google.android.gms.vision.Frame
+import com.google.android.gms.vision.barcode.Barcode
+import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -19,8 +24,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val captureCode = 1578
-
-
+    private var bmp : Bitmap ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,9 +43,24 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == captureCode && resultCode == Activity.RESULT_OK){
             val extras: Bundle = data!!.extras
             val bitmap: Bitmap = extras.get("data") as Bitmap
-            imgCodeResult.setImageBitmap(bitmap)
-            Log.i("Camarita","Picture taken")
+            bmp = Bitmap.createScaledBitmap(bitmap,360,640,false)
+            imgCodeResult.setImageBitmap(bmp)
+            val detector = BarcodeDetector.Builder(applicationContext)
+                    .setBarcodeFormats(Barcode.ALL_FORMATS)
+                    .build()
+            if (!detector.isOperational){
+                Log.i("operation","not working")
+            }else{
+                Log.i("operation","is working")
+            }
+
+            val frame = Frame.Builder().setBitmap(bmp).build()
+            val barcodeList : SparseArray<Barcode> = detector.detect(frame)
+            Log.i("barcode",barcodeList.size().toString())
         }
+
+
+        //decodeBarcode()
     }
 
     private fun requestPermission(activity: Activity, permission: String){
@@ -61,4 +80,11 @@ class MainActivity : AppCompatActivity() {
                     }
                 }).check()
     }
+
+    private fun decodeBarcode(){
+
+        //val thisCode = barcodeList.valueAt(0)
+
+    }
+
 }
