@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -20,10 +21,13 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
     private val captureCode = 1578
+    private val galleryCode = 8751
+
     private var bmp : Bitmap ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +35,19 @@ class MainActivity : AppCompatActivity() {
         requestPermission(this,android.Manifest.permission.CAMERA)
 
         btnCameraRequest.setOnClickListener {
+
+
+            /*
             val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             if (takePictureIntent.resolveActivity(packageManager) != null){
                 startActivityForResult(takePictureIntent, captureCode)
             }
+            */
+
+            val intentGallery = Intent()
+            intentGallery.type = "image/*"
+            intentGallery.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intentGallery,"Select picture"),galleryCode)
         }
     }
 
@@ -59,8 +72,18 @@ class MainActivity : AppCompatActivity() {
             Log.i("barcode",barcodeList.size().toString())
         }
 
+        if (requestCode == galleryCode && resultCode == Activity.RESULT_OK && data != null && data.data != null){
+            val uri: Uri = data.data
 
-        //decodeBarcode()
+            try {
+                val bitmapGallery = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+                imgCodeResult.setImageBitmap(bitmapGallery)
+                decodeBarcode(bitmapGallery)
+            }catch (e : IOException){
+                e.printStackTrace()
+            }
+        }
+
     }
 
     private fun requestPermission(activity: Activity, permission: String){
@@ -81,9 +104,23 @@ class MainActivity : AppCompatActivity() {
                 }).check()
     }
 
-    private fun decodeBarcode(){
+    private fun decodeBarcode(barcodeImage : Bitmap){
+        val detector = BarcodeDetector.Builder(applicationContext)
+                .setBarcodeFormats(Barcode.ALL_FORMATS)
+                .build()
+        if (!detector.isOperational){
+            barcodeResult.text = "Could not setup the detector"
+        }
 
-        //val thisCode = barcodeList.valueAt(0)
+        val frame = Frame.Builder().setBitmap(barcodeImage).build()
+        val barcodeList : SparseArray<Barcode> = detector.detect(frame)
+        //Log.i("barcode",barcodeList.valueAt(0).rawValue)
+        if (barcodeList.size() > 0){
+            val thisCode = barcodeList.valueAt(0)
+            barcodeResult.text = thisCode.rawValue
+        }else{
+            barcodeResult.text = "Codigo de barras no encontrado"
+        }
 
     }
 
