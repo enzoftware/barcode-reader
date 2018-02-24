@@ -1,13 +1,11 @@
 package com.projects.enzoftware.barcodereader
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.util.Log
 import android.util.SparseArray
@@ -109,7 +107,7 @@ class MainActivity : AppCompatActivity() {
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build()
         if (!detector.isOperational){
-            barcodeResult.text = "Could not setup the detector"
+            barcodeResult.text = R.string.not_setup_detector.toString()
         }
 
         val frame = Frame.Builder().setBitmap(barcodeImage).build()
@@ -119,7 +117,7 @@ class MainActivity : AppCompatActivity() {
             val thisCode = barcodeList.valueAt(0)
             barcodeResult.text = thisCode.rawValue
         }else{
-            barcodeResult.text = "Codigo de barras no encontrado"
+            barcodeResult.text = R.string.barcode_not_found.toString()
         }
 
     }
