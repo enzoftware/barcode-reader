@@ -23,7 +23,6 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private val captureCode = 1578
     private var pictureImagePath = ""
-    // private val galleryCode = 8751
+
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,26 +48,12 @@ class MainActivity : AppCompatActivity() {
             val takePictureIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,outputFileUri)
             startActivityForResult(takePictureIntent,captureCode)
-
-            /*
-            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-            File file = new File(Environment.getExternalStorageDirectory()+File.separator + "image.jpg");
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-            startActivityForResult(intent, CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE);
-             */
-
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == captureCode && resultCode == Activity.RESULT_OK){
-           /*
-            File file = new File(Environment.getExternalStorageDirectory()+File.separator + "image.jpg");
-            Bitmap bitmap = decodeSampledBitmapFromFile(file.getAbsolutePath(), 1000, 700);
-           */
-
-            //imgCodeResult.setImageBitmap(bitmap)
             val imgFile = File(pictureImagePath)
             if (imgFile.exists()){
                 val bitmapResult = BitmapFactory.decodeFile(imgFile.absolutePath)
@@ -77,35 +62,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-    }
-
-    private fun decodeSampleBitmapFromFile(path: String , widthRequired: Int, heightRequired: Int) : Bitmap{
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(path,options)
-
-        val height = options.outHeight
-        val width = options.outWidth
-
-        options.inPreferredConfig = Bitmap.Config.RGB_565
-        var inSampleSize = 1
-
-        if (height > heightRequired){
-            inSampleSize = Math.round( height.toFloat() / heightRequired.toFloat() )
-        }
-
-        val expectedWidth = width / inSampleSize
-
-        if (expectedWidth > widthRequired){
-            inSampleSize = Math.round( width.toFloat() / widthRequired.toFloat() )
-        }
-
-        options.inSampleSize = inSampleSize
-
-        options.inJustDecodeBounds = false
-
-        return BitmapFactory.decodeFile(path, options)
-
     }
 
     private fun requestPermission(activity: Activity, permission: String){
@@ -136,7 +92,6 @@ class MainActivity : AppCompatActivity() {
 
         val frame = Frame.Builder().setBitmap(barcodeImage).build()
         val barcodeList : SparseArray<Barcode> = detector.detect(frame)
-        //Log.i("barcode",barcodeList.valueAt(0).rawValue)
         if (barcodeList.size() > 0){
             val thisCode = barcodeList.valueAt(0)
             barcodeResult.text = thisCode.rawValue
