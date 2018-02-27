@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity() {
 
         val frame = Frame.Builder().setBitmap(barcodeImage).build()
         val barcodeList : SparseArray<Barcode> = detector.detect(frame)
+
         if (barcodeList.size() > 0){
             val thisCode = barcodeList.valueAt(0)
             barcodeResult.text = thisCode.rawValue
