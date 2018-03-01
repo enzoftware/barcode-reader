@@ -4,4 +4,6 @@
     <string name="barcode_result">Barcode result</string>
     <string name="not_setup_detector">Could not setup the detector</string>
     <string name="barcode_not_found">Codigo de barras no encontrado</string>
+    <string name="developBy">Desarrollado por @enzoftware</string>
+    <string name="start">Empezar</string>
 </resources>
