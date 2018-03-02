@@ -2,7 +2,9 @@ package com.projects.enzoftware.barcodereader
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -34,6 +36,8 @@ class MainActivity : AppCompatActivity() {
 
     private val captureCode = 1578
     private var pictureImagePath = ""
+    private val DATABASE_NAME = "barcode_database"
+    private val DATABASE_VERSION = 1
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,13 +107,25 @@ class MainActivity : AppCompatActivity() {
             barcodeResult.text = thisCode.rawValue
 
             alert("Hi your code message is ${thisCode.rawValue} , you want to save it?"){
-                yesButton { toast("Very cool :)")}
-                noButton  { toast("Sorry :(") }
+                yesButton {
+                    saveToDB(thisCode.rawValue)
+                }
+                noButton  {
+                    toast("Sorry :(")
+                }
             }.show()
 
         }else{
             barcodeResult.text = "Codigo de barras no encontrado"
         }
+    }
+
+    private fun saveToDB(barcodeCode: String){
+        val db: SQLiteDatabase = SampleSqliteDBHelper(this,DATABASE_NAME,null,DATABASE_VERSION).writableDatabase
+        val values = ContentValues()
+        values.put(SampleSqliteDBHelper.BARCODE_RESULT_CODE,barcodeCode)
+        val newRowId = db.insert(SampleSqliteDBHelper.BARCODE_TABLE_NAME, null, values)
+        toast("The new row ID is $newRowId ")
     }
 
 }
