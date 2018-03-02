@@ -22,6 +22,10 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.yesButton
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,6 +58,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == captureCode && resultCode == Activity.RESULT_OK){
+
             val imgFile = File(pictureImagePath)
             if (imgFile.exists()){
                 val bitmapResult = BitmapFactory.decodeFile(imgFile.absolutePath)
@@ -96,10 +101,15 @@ class MainActivity : AppCompatActivity() {
         if (barcodeList.size() > 0){
             val thisCode = barcodeList.valueAt(0)
             barcodeResult.text = thisCode.rawValue
-        }else{
-            barcodeResult.text = R.string.barcode_not_found.toString()
-        }
 
+            alert("Hi your code message is ${thisCode.rawValue} , you want to save it?"){
+                yesButton { toast("Very cool :)")}
+                noButton  { toast("Sorry :(") }
+            }.show()
+
+        }else{
+            barcodeResult.text = "Codigo de barras no encontrado"
+        }
     }
 
 }
