@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
             val thisCode = barcodeList.valueAt(0)
             barcodeResult.text = thisCode.rawValue
 
-            alert("Hi your code message is ${thisCode.rawValue} , you want to save it?"){
+            alert("Hey, tu codigo de barras es ${thisCode.rawValue} , quisieras guardarlo?"){
                 yesButton {
                     saveToDB(thisCode.rawValue)
                 }
@@ -141,7 +141,6 @@ class MainActivity : AppCompatActivity() {
         if (cursor.count != 0){
             cursor.moveToFirst()
             do{
-                var row_values = "ROW VALUES"
                 val cgt:String = cursor.getString(0)
                 val cgx:String = cursor.getString(1)
                 Log.i("names",cgt + " || "+ cgx)
