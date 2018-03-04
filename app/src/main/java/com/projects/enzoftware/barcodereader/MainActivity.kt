@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
 
         listBarCodes.setOnClickListener {
             readFromDB()
+            startActivity(Intent(this,ListActivity::class.java))
         }
     }
 
