@@ -2,29 +2,21 @@ package com.projects.enzoftware.barcodereader
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
+import android.support.v7.app.AppCompatActivity
 import android.util.SparseArray
 import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.single.PermissionListener
-import com.projects.enzoftware.barcodereader.db.SampleSqliteDBHelper
+import com.projects.enzoftware.barcodereader.utils.readFromDB
+import com.projects.enzoftware.barcodereader.utils.requestPermission
+import com.projects.enzoftware.barcodereader.utils.saveToDB
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
 import org.jetbrains.anko.alert
@@ -39,8 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     private val captureCode = 1578
     private var pictureImagePath = ""
-    private val DATABASE_NAME = "barcode_database"
-    private val DATABASE_VERSION = 1
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         listBarCodes.setOnClickListener {
-            readFromDB()
+            readFromDB(this)
             startActivity(Intent(this,ListActivity::class.java))
         }
     }
@@ -79,24 +69,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-    }
-
-    private fun requestPermission(activity: Activity, permission: String){
-        Dexter  .withActivity(activity)
-                .withPermission(permission)
-                .withListener(object : PermissionListener {
-                    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-                        Log.i("Permission",response.toString())
-                    }
-
-                    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) {
-                        Log.i("Permission",permission.toString())
-                    }
-
-                    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-                        Log.i("Permission",response.toString())
-                    }
-                }).check()
     }
 
     private fun decodeBarcode(barcodeImage : Bitmap){
@@ -116,7 +88,7 @@ class MainActivity : AppCompatActivity() {
 
             alert("Hey, tu codigo de barras es ${thisCode.rawValue} , quisieras guardarlo?"){
                 yesButton {
-                    saveToDB(thisCode.rawValue)
+                    saveToDB(thisCode.rawValue,this@MainActivity)
                 }
                 noButton  {
                     toast("Sorry :(")
@@ -125,28 +97,6 @@ class MainActivity : AppCompatActivity() {
 
         }else{
             barcodeResult.text = "Codigo de barras no encontrado"
-        }
-    }
-
-    private fun saveToDB(barcodeCode: String){
-        val db: SQLiteDatabase = SampleSqliteDBHelper(this, DATABASE_NAME, null, DATABASE_VERSION).writableDatabase
-        val values = ContentValues()
-        values.put(SampleSqliteDBHelper.BARCODE_RESULT_CODE,barcodeCode)
-        val newRowId = db.insert(SampleSqliteDBHelper.BARCODE_TABLE_NAME, null, values)
-        toast("The new row ID is $newRowId ")
-    }
-
-    private fun readFromDB(){
-        val db: SQLiteDatabase = SampleSqliteDBHelper(this, DATABASE_NAME, null, DATABASE_VERSION).readableDatabase
-        val cursor: Cursor = db.rawQuery("SELECT * FROM barcode_table",null)
-        if (cursor.count != 0){
-            cursor.moveToFirst()
-            do{
-                val cgt:String = cursor.getString(0)
-                val cgx:String = cursor.getString(1)
-                Log.i("names",cgt + " || "+ cgx)
-            }while (cursor.moveToNext())
-            cursor.close()
         }
     }
 
