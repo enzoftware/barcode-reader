@@ -1,4 +1,4 @@
-package com.projects.enzoftware.barcodereader
+package com.projects.enzoftware.barcodereader.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -14,16 +14,18 @@ class SampleSqliteDBHelper(context: Context?, name: String?, factory: SQLiteData
     // TODO : CALL AS SimpleSqliteDBHelper(this,DATABASE_NAME,null,DATABASE_VERSION)
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db!!.execSQL("CREATE TABLE "+BARCODE_TABLE_NAME+" " +
-                        "(" + Companion.BARCODE_ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        BARCODE_RESULT_CODE + " TEXT" + " )")
+        db!!.execSQL("CREATE TABLE "+ BARCODE_TABLE_NAME +" " +
+                        "(" + BARCODE_ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                BARCODE_RESULT_CODE + " TEXT" + " )")
         Log.i("SQLITEDB","CREATE SUCCESS")
     }
 
 
 
+
+
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db!!.execSQL("DROP TABLE IF EXISTS "+BARCODE_TABLE_NAME)
+        db!!.execSQL("DROP TABLE IF EXISTS "+ BARCODE_TABLE_NAME)
         onCreate(db)
     }
 

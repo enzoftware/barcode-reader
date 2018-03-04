@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -23,7 +24,9 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import com.projects.enzoftware.barcodereader.db.SampleSqliteDBHelper
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
@@ -56,6 +59,10 @@ class MainActivity : AppCompatActivity() {
             val takePictureIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,outputFileUri)
             startActivityForResult(takePictureIntent,captureCode)
+        }
+
+        listBarCodes.setOnClickListener {
+            readFromDB()
         }
     }
 
@@ -121,11 +128,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveToDB(barcodeCode: String){
-        val db: SQLiteDatabase = SampleSqliteDBHelper(this,DATABASE_NAME,null,DATABASE_VERSION).writableDatabase
+        val db: SQLiteDatabase = SampleSqliteDBHelper(this, DATABASE_NAME, null, DATABASE_VERSION).writableDatabase
         val values = ContentValues()
         values.put(SampleSqliteDBHelper.BARCODE_RESULT_CODE,barcodeCode)
         val newRowId = db.insert(SampleSqliteDBHelper.BARCODE_TABLE_NAME, null, values)
         toast("The new row ID is $newRowId ")
+    }
+
+    private fun readFromDB(){
+        val db: SQLiteDatabase = SampleSqliteDBHelper(this, DATABASE_NAME, null, DATABASE_VERSION).readableDatabase
+        val cursor: Cursor = db.rawQuery("SELECT * FROM barcode_table",null)
+        if (cursor.count != 0){
+            cursor.moveToFirst()
+            do{
+                var row_values = "ROW VALUES"
+                val cgt:String = cursor.getString(0)
+                val cgx:String = cursor.getString(1)
+                Log.i("names",cgt + " || "+ cgx)
+            }while (cursor.moveToNext())
+            cursor.close()
+        }
     }
 
 }
