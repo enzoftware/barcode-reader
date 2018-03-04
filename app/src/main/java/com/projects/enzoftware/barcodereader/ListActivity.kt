@@ -1,14 +1,10 @@
 package com.projects.enzoftware.barcodereader
 
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import com.projects.enzoftware.barcodereader.adapter.RecyclerViewAdapter
-import com.projects.enzoftware.barcodereader.db.SampleSqliteDBHelper
 import com.projects.enzoftware.barcodereader.model.Barcode
 import com.projects.enzoftware.barcodereader.utils.readFromDB
 

@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import android.widget.Toast
 import com.karumi.dexter.Dexter
-import org.jetbrains.anko.toast
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
