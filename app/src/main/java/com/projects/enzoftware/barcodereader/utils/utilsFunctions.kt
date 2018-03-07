@@ -40,6 +40,7 @@ fun requestPermission(activity: Activity, permission: String){
                 }
             }).check()
 }
+
  fun saveToDB(barcodeCode: String, context: Context){
     val db: SQLiteDatabase = SampleSqliteDBHelper(context, DATABASE_NAME, null, DATABASE_VERSION).writableDatabase
     val values = ContentValues()
@@ -63,4 +64,10 @@ fun readFromDB(context: Context): ArrayList<Barcode>{
     }
 
     return arrayBarcode
+}
+
+
+fun cleanDB(context: Context){
+    val db: SQLiteDatabase = SampleSqliteDBHelper(context, DATABASE_NAME, null, DATABASE_VERSION).writableDatabase
+    db.execSQL("DELETE FROM barcode_table")
 }

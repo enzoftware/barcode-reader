@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(takePictureIntent,captureCode)
         }
 
-        listBarCodes.setOnClickListener {
+        btnAppBarLayout.setOnClickListener {
             readFromDB(this)
             startActivity(Intent(this,ListActivity::class.java))
         }
