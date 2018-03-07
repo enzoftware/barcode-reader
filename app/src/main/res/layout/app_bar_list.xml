@@ -23,7 +23,7 @@
             android:textStyle="bold" />
 
 
-        <Button
+        <ImageButton
             android:id="@+id/listBarLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -32,11 +32,9 @@
             android:layout_marginEnd="18dp"
             android:foregroundGravity="left"
             android:gravity="center_vertical"
-            android:padding="10dp"
-            android:text="@string/clean_list"
-            android:textColor="@android:color/white"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:src="@drawable/trash"
+            android:background="@android:color/transparent"
+            android:padding="10dp" />
 
     </RelativeLayout>
 
