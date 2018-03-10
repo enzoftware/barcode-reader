@@ -15,6 +15,7 @@ class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
+        supportActionBar!!.hide()
         upToDown = AnimationUtils.loadAnimation(this,R.anim.up_to_down)
         downToUp = AnimationUtils.loadAnimation(this,R.anim.down_to_up)
         linearLayoutSuperior.animation = upToDown

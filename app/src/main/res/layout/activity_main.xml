@@ -19,14 +19,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:background="@drawable/button_style"
-            android:text="@string/take_photo" />
+            android:background="@drawable/icons8barcodereaderfilled100" />
 
 
     </LinearLayout>
 
 
     <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

@@ -1,6 +1,7 @@
 package com.projects.enzoftware.barcodereader
 
 import android.annotation.SuppressLint
+import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,8 +10,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.support.design.widget.BottomNavigationView
+import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener
 import android.support.v7.app.AppCompatActivity
 import android.util.SparseArray
+import android.widget.Toolbar
 import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
@@ -28,11 +32,36 @@ class MainActivity : AppCompatActivity() {
 
     private val captureCode = 1578
     private var pictureImagePath = ""
+    private var toolbar : android.support.v7.app.ActionBar ?= null
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        toolbar = supportActionBar
+        toolbar!!.title = getString(R.string.app_name)
+
+        val navigator: BottomNavigationView = findViewById(R.id.navigator)
+        navigator.setOnNavigationItemSelectedListener{
+            item ->
+            when(item.itemId){
+                R.id.navigation_list -> {
+                    toolbar!!.title = getString(R.string.list)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_barcode -> {
+                    toolbar!!.title = getString(R.string.app_name)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_info -> {
+                    toolbar!!.title = getString(R.string.about)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                else -> {
+                    return@setOnNavigationItemSelectedListener false
+                }
+            }
+        }
         requestPermission(this,android.Manifest.permission.CAMERA)
         requestPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
@@ -46,7 +75,9 @@ class MainActivity : AppCompatActivity() {
             val takePictureIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,outputFileUri)
             startActivityForResult(takePictureIntent,captureCode)
+
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
