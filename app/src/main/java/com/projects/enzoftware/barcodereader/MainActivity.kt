@@ -19,10 +19,7 @@ import com.projects.enzoftware.barcodereader.utils.requestPermission
 import com.projects.enzoftware.barcodereader.utils.saveToDB
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.noButton
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.yesButton
+import org.jetbrains.anko.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -50,11 +47,6 @@ class MainActivity : AppCompatActivity() {
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,outputFileUri)
             startActivityForResult(takePictureIntent,captureCode)
         }
-
-        btnAppBarLayout.setOnClickListener {
-            readFromDB(this)
-            startActivity(Intent(this,ListActivity::class.java))
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -64,7 +56,6 @@ class MainActivity : AppCompatActivity() {
             val imgFile = File(pictureImagePath)
             if (imgFile.exists()){
                 val bitmapResult = BitmapFactory.decodeFile(imgFile.absolutePath)
-                imgCodeResult.setImageBitmap(bitmapResult)
                 decodeBarcode(bitmapResult)
             }
 
@@ -76,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build()
         if (!detector.isOperational){
-            barcodeResult.text = R.string.not_setup_detector.toString()
+            longToast(R.string.not_setup_detector)
         }
 
         val frame = Frame.Builder().setBitmap(barcodeImage).build()
@@ -84,8 +75,6 @@ class MainActivity : AppCompatActivity() {
 
         if (barcodeList.size() > 0){
             val thisCode = barcodeList.valueAt(0)
-            barcodeResult.text = thisCode.rawValue
-
             alert("Hey, tu codigo de barras es ${thisCode.rawValue} , quisieras guardarlo?"){
                 yesButton {
                     saveToDB(thisCode.rawValue,this@MainActivity)
@@ -96,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             }.show()
 
         }else{
-            barcodeResult.text = "Codigo de barras no encontrado"
+           longToast(R.string.barcode_not_found)
         }
     }
 

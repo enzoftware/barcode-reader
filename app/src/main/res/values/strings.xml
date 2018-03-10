@@ -9,4 +9,5 @@
     <string name="list">Lista</string>
     <string name="saved_codes">Lista de articulos</string>
     <string name="clean_list">Limpiar lista</string>
+    <string name="about">About</string>
 </resources>
