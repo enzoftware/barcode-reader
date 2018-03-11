@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.projects.enzoftware.barcodereader.R
 import com.projects.enzoftware.barcodereader.adapter.RecyclerViewAdapter
 import com.projects.enzoftware.barcodereader.model.Barcode
+import com.projects.enzoftware.barcodereader.utils.readFromDB
 
 
 /**
@@ -21,18 +22,32 @@ import com.projects.enzoftware.barcodereader.model.Barcode
  */
 class ScannedFragment : Fragment() {
 
+    private var barcode_list : ArrayList<Barcode> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_scanned, container, false)
+        val view = inflater!!.inflate(R.layout.fragment_scanned, container, false)
+        val recycler = view!!.findViewById<RecyclerView>(R.id.recyclerViewBarcodes)
+        barcode_list = readFromDB(activity)
+        printBarcodes(barcode_list,recycler)
+        return view
     }
 
-    private fun printBarcodes(list: ArrayList<Barcode>?){
-        val recycler = view!!.findViewById<RecyclerView>(R.id.recyclerViewBarcodes)
+    private fun printBarcodes(list: ArrayList<Barcode>?, recycler:RecyclerView){
         recycler.layoutManager = LinearLayoutManager(activity)
         recycler.hasFixedSize()
         recycler.adapter = RecyclerViewAdapter(activity,list)
     }
 
 }// Required empty public constructor
+
+/*
+
+listBarLayout.setOnClickListener {
+            cleanDB(this)
+            toast("It's clean now")
+            //barcode_list = readFromDB(this)
+            // printBarcodes(barcode_list)
+        }
+
+*/
