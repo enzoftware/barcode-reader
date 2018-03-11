@@ -19,22 +19,17 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
         barcode_list = readFromDB(this)
-        printBarcodes(barcode_list)
+       // printBarcodes(barcode_list)
 
         listBarLayout.setOnClickListener {
             cleanDB(this)
             toast("It's clean now")
             barcode_list = readFromDB(this)
-            printBarcodes(barcode_list)
+            // printBarcodes(barcode_list)
         }
     }
 
 
-    private fun printBarcodes(list: ArrayList<Barcode>?){
-        val recycler = findViewById<RecyclerView>(R.id.recyclerViewBarcodes)
-        recycler.layoutManager = LinearLayoutManager(this)
-        recycler.hasFixedSize()
-        recycler.adapter = RecyclerViewAdapter(this,list)
-    }
+
 
 }

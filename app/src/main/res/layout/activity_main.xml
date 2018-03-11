@@ -7,29 +7,11 @@
     android:id="@+id/container"
     tools:context="com.projects.enzoftware.barcodereader.MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="279dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/btnCameraRequest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:background="@drawable/icons8barcodereaderfilled100" />
-
-
-    </LinearLayout>
-
-
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="bottom|center"
         app:menu="@menu/navigation"/>
 
 </android.support.design.widget.CoordinatorLayout>

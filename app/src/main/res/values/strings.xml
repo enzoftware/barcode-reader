@@ -10,4 +10,9 @@
     <string name="saved_codes">Lista de articulos</string>
     <string name="clean_list">Limpiar lista</string>
     <string name="about">About</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="eyes_open_content_description">Eyes open</string>
+    <string name="welcome_message">Welcome to BarcodeReader app</string>
 </resources>

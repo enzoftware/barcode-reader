@@ -12,9 +12,6 @@
         layout="@layout/app_bar_list"
         android:id="@+id/ListActivityBar"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewBarcodes"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
 
 </LinearLayout>
