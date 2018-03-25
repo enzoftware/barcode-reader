@@ -1,6 +1,7 @@
 package com.projects.enzoftware.barcodereader.fragments
 
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -8,11 +9,16 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.ImageButton
 import com.projects.enzoftware.barcodereader.R
 import com.projects.enzoftware.barcodereader.adapter.RecyclerViewAdapter
 import com.projects.enzoftware.barcodereader.model.Barcode
+import com.projects.enzoftware.barcodereader.utils.cleanDB
 import com.projects.enzoftware.barcodereader.utils.readFromDB
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.yesButton
 
 
 /**
@@ -28,26 +34,29 @@ class ScannedFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_scanned, container, false)
         val recycler = view!!.findViewById<RecyclerView>(R.id.recyclerViewBarcodes)
+        val btnDeleteAll = view.findViewById<ImageButton>(R.id.delete_all)
         barcode_list = readFromDB(activity)
-        printBarcodes(barcode_list,recycler)
+        printBarcodes(barcode_list,recycler,activity)
+        btnDeleteAll.setOnClickListener {
+            alert("Hey, estas seguro que quieres eliminar todos los registros? "){
+                yesButton {
+                    cleanDB(activity)
+                    barcode_list = readFromDB(activity)
+                    printBarcodes(barcode_list,recycler,activity)
+                    toast("Registros eliminados")
+                }
+                noButton  {
+                    toast("Ok :)")
+                }
+            }.show()
+        }
         return view
     }
 
-    private fun printBarcodes(list: ArrayList<Barcode>?, recycler:RecyclerView){
-        recycler.layoutManager = LinearLayoutManager(activity)
+    private fun printBarcodes(list: ArrayList<Barcode>?, recycler: RecyclerView, context: Context){
+        recycler.layoutManager = LinearLayoutManager(context)
         recycler.hasFixedSize()
-        recycler.adapter = RecyclerViewAdapter(activity,list)
+        recycler.adapter = RecyclerViewAdapter(context,list)
     }
 
-}// Required empty public constructor
-
-/*
-
-listBarLayout.setOnClickListener {
-            cleanDB(this)
-            toast("It's clean now")
-            //barcode_list = readFromDB(this)
-            // printBarcodes(barcode_list)
-        }
-
-*/
+}

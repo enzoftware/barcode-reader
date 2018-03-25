@@ -15,4 +15,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="eyes_open_content_description">Eyes open</string>
     <string name="welcome_message">Welcome to BarcodeReader app</string>
+    <string name="test_number">123456789</string>
+    <string name="delete_button">Delete button</string>
 </resources>

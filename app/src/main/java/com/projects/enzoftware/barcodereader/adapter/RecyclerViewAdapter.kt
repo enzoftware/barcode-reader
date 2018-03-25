@@ -5,8 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.projects.enzoftware.barcodereader.R
 import com.projects.enzoftware.barcodereader.model.Barcode
+import com.projects.enzoftware.barcodereader.utils.deleteItemFromDB
 import kotlinx.android.synthetic.main.card_view_barcode.view.*
 
 /**
@@ -30,8 +32,11 @@ class RecyclerViewAdapter (var context: Context, var list: ArrayList<Barcode>?):
 
     class Item(itemView:View): RecyclerView.ViewHolder(itemView){
         fun bindData(_list: Barcode, context: Context){
-            itemView.barcode_id.text =_list.id
             itemView.barcode_code.text = _list.code
+            itemView.btnDeleteThis.setOnClickListener {
+                Toast.makeText(context,"Deleted item with ID ${_list.id}",Toast.LENGTH_SHORT).show()
+                deleteItemFromDB(context,_list.id.toInt())
+            }
         }
     }
 
