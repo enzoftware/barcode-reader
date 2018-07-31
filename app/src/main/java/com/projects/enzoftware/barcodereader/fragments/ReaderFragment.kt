@@ -19,14 +19,14 @@ import android.widget.Button
 import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
-
 import com.projects.enzoftware.barcodereader.R
-import com.projects.enzoftware.barcodereader.utils.saveToDB
-import kotlinx.android.synthetic.main.fragment_reader.*
-import org.jetbrains.anko.*
+import com.projects.enzoftware.barcodereader.db.BarcodeDao
+import com.projects.enzoftware.barcodereader.db.BarcodeRoomDatabase
+import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.yesButton
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -87,8 +87,9 @@ class ReaderFragment : Fragment() {
             val thisCode = barcodeList.valueAt(0)
             alert("Hey, tu codigo de barras es ${thisCode.rawValue} , quisieras guardarlo?"){
                 yesButton {
-                    // TODO : IMPLEMENT SAVE TO DB
-                    //saveToDB(thisCode.rawValue,activity)
+                    val barcodeDao : BarcodeDao = BarcodeRoomDatabase.getInstance(context).barcode()
+                    barcodeDao.insertNewBarcode(com.projects.enzoftware.barcodereader.model.Barcode(thisCode.rawValue))
+                    // Be more careful with the names of models
                 }
                 noButton  {
                     toast("Sorry :(")
@@ -101,4 +102,4 @@ class ReaderFragment : Fragment() {
     }
 
 
-}// Required empty public constructor
+}

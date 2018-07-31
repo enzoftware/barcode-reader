@@ -1,6 +1,6 @@
 # barcode-eyes
-:eyes: Simple android app for reading barcodes from products and store in a DB
+:eyes: :door: Simple android app for reading barcodes from products and store in a Room DB
 
-## Todo's :
-- Migrate to SQLite => Room
+## TODO :
+[x] Migrate to SQLite => Room
 

@@ -1,19 +1,13 @@
 package com.projects.enzoftware.barcodereader
 
-import android.app.Activity
-import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.projects.enzoftware.barcodereader.fragments.AboutFragment
 import com.projects.enzoftware.barcodereader.fragments.ReaderFragment
 import com.projects.enzoftware.barcodereader.fragments.ScannedFragment
 import com.projects.enzoftware.barcodereader.fragments.WelcomeFragment
 import com.projects.enzoftware.barcodereader.utils.requestPermission
-import kotlinx.android.synthetic.main.activity_main.*
-import java.io.File
 
 class MainActivity : AppCompatActivity() {
     private var toolbar : android.support.v7.app.ActionBar ?= null
