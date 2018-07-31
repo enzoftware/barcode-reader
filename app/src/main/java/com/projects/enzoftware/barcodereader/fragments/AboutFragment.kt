@@ -1,14 +1,11 @@
 package com.projects.enzoftware.barcodereader.fragments
 
 
-import android.app.ActionBar
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.projects.enzoftware.barcodereader.R
 import mehdi.sakout.aboutpage.AboutPage
 import mehdi.sakout.aboutpage.Element
