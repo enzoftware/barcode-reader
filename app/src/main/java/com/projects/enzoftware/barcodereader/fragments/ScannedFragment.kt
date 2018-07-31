@@ -35,13 +35,15 @@ class ScannedFragment : Fragment() {
         val view = inflater!!.inflate(R.layout.fragment_scanned, container, false)
         val recycler = view!!.findViewById<RecyclerView>(R.id.recyclerViewBarcodes)
         val btnDeleteAll = view.findViewById<ImageButton>(R.id.delete_all)
-        barcode_list = readFromDB(activity)
+        // TODO : READ FROM DATABASE
+        //barcode_list = readFromDB(activity)
         printBarcodes(barcode_list,recycler,activity)
         btnDeleteAll.setOnClickListener {
             alert("Hey, estas seguro que quieres eliminar todos los registros? "){
                 yesButton {
-                    cleanDB(activity)
-                    barcode_list = readFromDB(activity)
+                    // TODO : DELETE ALL FROM DB
+                    //cleanDB(activity)
+                    //barcode_list = readFromDB(activity)
                     printBarcodes(barcode_list,recycler,activity)
                     toast("Registros eliminados")
                 }

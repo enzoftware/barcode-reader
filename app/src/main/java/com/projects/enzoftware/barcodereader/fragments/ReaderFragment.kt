@@ -46,7 +46,7 @@ class ReaderFragment : Fragment() {
 
         btnRequest.setOnClickListener {
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-            val imageFileName = timeStamp + ".jpg"
+            val imageFileName = "$timeStamp.jpg"
             val storageDir: File = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             pictureImagePath = storageDir.absolutePath + "/" + imageFileName
             val file = File(pictureImagePath)
@@ -87,7 +87,8 @@ class ReaderFragment : Fragment() {
             val thisCode = barcodeList.valueAt(0)
             alert("Hey, tu codigo de barras es ${thisCode.rawValue} , quisieras guardarlo?"){
                 yesButton {
-                    saveToDB(thisCode.rawValue,activity)
+                    // TODO : IMPLEMENT SAVE TO DB
+                    //saveToDB(thisCode.rawValue,activity)
                 }
                 noButton  {
                     toast("Sorry :(")

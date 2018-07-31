@@ -35,7 +35,8 @@ class RecyclerViewAdapter (var context: Context, var list: ArrayList<Barcode>?):
             itemView.barcode_code.text = _list.code
             itemView.btnDeleteThis.setOnClickListener {
                 Toast.makeText(context,"Deleted item with ID ${_list.id}",Toast.LENGTH_SHORT).show()
-                deleteItemFromDB(context,_list.id.toInt())
+                // TODO : IMPLEMENT DELETE ITEM
+                //deleteItemFromDB(context, _list.id!!.toInt())
             }
         }
     }
