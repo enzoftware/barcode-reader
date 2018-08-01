@@ -8,7 +8,7 @@ import com.projects.enzoftware.barcodereader.model.Barcode
 @Dao
 interface BarcodeDao {
     @Query("Select * from barcode")
-    fun getAllBarcodes() : LiveData<Barcode>
+    fun getAllBarcodes() : LiveData<List<Barcode>>
 
     @Query("Delete from barcode")
     fun cleanDB()

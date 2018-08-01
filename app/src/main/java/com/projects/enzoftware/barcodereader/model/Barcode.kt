@@ -4,18 +4,12 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
-/**
- * Created by enzoftware on 3/4/18.
- */
 @Entity(tableName = "barcode")
-class Barcode{
+class Barcode(code: String) {
     @PrimaryKey(autoGenerate = true)
-    var id:String ?= null
+    var id:Int = 0
 
     @ColumnInfo(name = "code")
-    var code:String ?= null
+    var code:String ?= code
 
-    constructor(code:String){
-        this.code = code
-    }
 }

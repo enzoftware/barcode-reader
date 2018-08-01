@@ -17,16 +17,16 @@ import kotlinx.android.synthetic.main.card_view_barcode.view.*
  */
 
 
-class RecyclerViewAdapter (var context: Context, var list: ArrayList<Barcode>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        (holder as Item).bindData(list!![position],context)
+class RecyclerViewAdapter (var context: Context, var list: ArrayList<Barcode>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as Item).bindData(list[position],context)
     }
 
     override fun getItemCount(): Int {
-        return list!!.size
+        return list.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val v = LayoutInflater.from(context).inflate(R.layout.card_view_barcode,parent,false)
         return Item(v)
     }
