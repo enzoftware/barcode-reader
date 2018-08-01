@@ -17,10 +17,10 @@ import mehdi.sakout.aboutpage.Element
 class AboutFragment : Fragment() {
 
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val view = inflater!!.inflate(R.layout.fragment_about, container, false)
+        val view = inflater.inflate(R.layout.fragment_about, container, false)
 
         val versionElement = Element()
         versionElement.title = "Version 1.0.0"

@@ -38,10 +38,10 @@ class ReaderFragment : Fragment() {
     private var pictureImagePath = ""
 
     @SuppressLint("SimpleDateFormat")
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val view = inflater!!.inflate(R.layout.fragment_reader, container, false)
+        val view = inflater.inflate(R.layout.fragment_reader, container, false)
         val btnRequest = view!!.findViewById<Button>(R.id.btnCameraRequest)
 
         btnRequest.setOnClickListener {
@@ -87,7 +87,7 @@ class ReaderFragment : Fragment() {
             val thisCode = barcodeList.valueAt(0)
             alert("Hey, tu codigo de barras es ${thisCode.rawValue} , quisieras guardarlo?"){
                 yesButton {
-                    val barcodeDao : BarcodeDao = BarcodeRoomDatabase.getInstance(context).barcode()
+                    val barcodeDao : BarcodeDao = BarcodeRoomDatabase.getInstance(ctx).barcode()
                     barcodeDao.insertNewBarcode(com.projects.enzoftware.barcodereader.model.Barcode(thisCode.rawValue))
                     // Be more careful with the names of models
                 }
