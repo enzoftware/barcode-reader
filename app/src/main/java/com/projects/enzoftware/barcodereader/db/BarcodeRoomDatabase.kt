@@ -13,13 +13,13 @@ abstract class BarcodeRoomDatabase : RoomDatabase() {
     companion object {
         private lateinit var appDatabase : BarcodeRoomDatabase
         fun getInstance(context: Context) : BarcodeRoomDatabase{
-            if(appDatabase == null){
+            //if(appDatabase == null){
                 synchronized(BarcodeRoomDatabase::class){
                     appDatabase = Room  .databaseBuilder(context.applicationContext, BarcodeRoomDatabase::class.java,"barcode.db")
                             .allowMainThreadQueries()
                             .build()
                 }
-            }
+            //}
             return appDatabase
         }
     }

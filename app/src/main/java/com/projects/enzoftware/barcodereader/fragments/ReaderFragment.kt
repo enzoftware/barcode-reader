@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.StrictMode
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.util.SparseArray
@@ -45,6 +46,8 @@ class ReaderFragment : Fragment() {
         val btnRequest = view!!.findViewById<Button>(R.id.btnCameraRequest)
 
         btnRequest.setOnClickListener {
+            val builder : StrictMode.VmPolicy.Builder = StrictMode.VmPolicy.Builder()
+            StrictMode.setVmPolicy(builder.build())
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
             val imageFileName = "$timeStamp.jpg"
             val storageDir: File = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
