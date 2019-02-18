@@ -4,10 +4,10 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
-import com.google.android.gms.vision.barcode.Barcode
+import com.projects.enzoftware.barcodereader.model.Barcode
 
-@Database(entities = [(Barcode::class)], version = 1)
-public abstract class BarcodeRoomDatabase : RoomDatabase() {
+@Database(entities = arrayOf(Barcode::class), version = 2)
+abstract class BarcodeRoomDatabase : RoomDatabase() {
     abstract fun barcode() : BarcodeDao
 
     companion object {
