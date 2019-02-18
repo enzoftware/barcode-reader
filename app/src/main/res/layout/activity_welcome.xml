@@ -7,7 +7,7 @@
     android:weightSum="2"
     android:orientation="vertical"
     android:background="@drawable/background"
-    tools:context="com.projects.enzoftware.barcodereader.WelcomeActivity">
+    tools:context="com.projects.enzoftware.barcodereader.SplashActivity">
 
     <LinearLayout
         android:id="@+id/linearLayoutSuperior"

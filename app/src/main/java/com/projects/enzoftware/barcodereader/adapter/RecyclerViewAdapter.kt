@@ -12,10 +12,6 @@ import com.projects.enzoftware.barcodereader.db.BarcodeRoomDatabase
 import com.projects.enzoftware.barcodereader.model.BarcodeEntity
 import kotlinx.android.synthetic.main.card_view_barcode.view.*
 
-/**
- * Created by enzoftware on 3/4/18.
- */
-
 
 class RecyclerViewAdapter (var context: Context, var list: ArrayList<BarcodeEntity>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

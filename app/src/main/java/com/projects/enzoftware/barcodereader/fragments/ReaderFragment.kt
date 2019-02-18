@@ -53,9 +53,10 @@ class ReaderFragment : Fragment() {
             // TEST TO CHECK IF DAO WORKS
             barcodeDao.insertNewBarcode(BarcodeEntity("51515151515151515"))
 
-
+            // For Android N and above.
             val builder : StrictMode.VmPolicy.Builder = StrictMode.VmPolicy.Builder()
             StrictMode.setVmPolicy(builder.build())
+
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
             val imageFileName = "$timeStamp.jpg"
             val storageDir: File = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)

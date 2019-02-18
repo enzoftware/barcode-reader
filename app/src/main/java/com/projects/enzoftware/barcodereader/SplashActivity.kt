@@ -7,7 +7,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.activity_welcome.*
 
-class WelcomeActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity() {
 
     private lateinit var upToDown: Animation
     private lateinit var downToUp : Animation

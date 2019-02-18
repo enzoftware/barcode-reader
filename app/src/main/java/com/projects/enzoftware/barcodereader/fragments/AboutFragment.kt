@@ -11,9 +11,6 @@ import mehdi.sakout.aboutpage.AboutPage
 import mehdi.sakout.aboutpage.Element
 
 
-/**
- * A simple [Fragment] subclass.
- */
 class AboutFragment : Fragment() {
 
 
@@ -27,7 +24,7 @@ class AboutFragment : Fragment() {
 
         val aboutPage = AboutPage(activity)
                 .isRTL(false)
-                .setDescription("BarcodeEntity Reader is a simple android app for reading barcodes from products and store in a SQLite3 DB, for educational purpose")
+                .setDescription("BarcodeEntity Reader is a simple android app for reading barcodes from products and store in a local database.")
                 .setImage(R.drawable.eyesopen)
                 .addItem(versionElement)
                 .addGroup("Connect with me")

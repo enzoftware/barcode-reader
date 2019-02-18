@@ -22,7 +22,7 @@
                 android:name="com.google.android.gms.vision.DEPENDENCIES"
                 android:value="barcodeEntity" />
         </activity>
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

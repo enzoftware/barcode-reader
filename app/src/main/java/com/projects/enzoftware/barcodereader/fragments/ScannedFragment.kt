@@ -30,24 +30,24 @@ import org.jetbrains.anko.yesButton
  */
 class ScannedFragment : Fragment() {
 
-    private var barcode_Entity_list : ArrayList<BarcodeEntity> = ArrayList()
+    private var barcode_entity_list : ArrayList<BarcodeEntity> = ArrayList()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.fragment_scanned, container, false)
+        val view = inflater.inflate(R.layout.fragment_scanned, container, false)
         val recycler = view!!.findViewById<RecyclerView>(R.id.recyclerViewBarcodes)
         val btnDeleteAll = view.findViewById<ImageButton>(R.id.delete_all)
         val barcodeDao : BarcodeDao = BarcodeRoomDatabase.getInstance(ctx).barcode()
         barcodeDao.getAllBarcodes().observe(this, Observer { barcodeEntity : List<BarcodeEntity>? ->
             printBarcodes(barcodeEntity as ArrayList<BarcodeEntity>,recycler,ctx)
         })
-        printBarcodes(barcode_Entity_list,recycler,ctx)
+        printBarcodes(barcode_entity_list,recycler,ctx)
         btnDeleteAll.setOnClickListener {
             alert("Hey, estas seguro que quieres eliminar todos los registros? "){
                 yesButton {
                     barcodeDao.cleanDB()
-                    printBarcodes(barcode_Entity_list,recycler,ctx)
+                    printBarcodes(barcode_entity_list,recycler,ctx)
                     toast("Registros eliminados")
                 }
                 noButton  {
