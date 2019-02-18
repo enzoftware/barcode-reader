@@ -23,8 +23,10 @@ import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.projects.enzoftware.barcodereader.R
 import com.projects.enzoftware.barcodereader.db.BarcodeDao
 import com.projects.enzoftware.barcodereader.db.BarcodeRoomDatabase
+import com.projects.enzoftware.barcodereader.model.BarcodeEntity
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.yesButton
@@ -37,15 +39,21 @@ class ReaderFragment : Fragment() {
 
     private val captureCode = 1578
     private var pictureImagePath = ""
-
+    lateinit var barcodeDao : BarcodeDao
     @SuppressLint("SimpleDateFormat")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_reader, container, false)
         val btnRequest = view!!.findViewById<Button>(R.id.btnCameraRequest)
+        barcodeDao = BarcodeRoomDatabase.getInstance(ctx).barcode()
 
         btnRequest.setOnClickListener {
+
+            // TEST TO CHECK IF DAO WORKS
+            barcodeDao.insertNewBarcode(BarcodeEntity("51515151515151515"))
+
+
             val builder : StrictMode.VmPolicy.Builder = StrictMode.VmPolicy.Builder()
             StrictMode.setVmPolicy(builder.build())
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
@@ -90,9 +98,7 @@ class ReaderFragment : Fragment() {
             val thisCode = barcodeList.valueAt(0)
             alert("Hey, tu codigo de barras es ${thisCode.rawValue} , quisieras guardarlo?"){
                 yesButton {
-                    val barcodeDao : BarcodeDao = BarcodeRoomDatabase.getInstance(ctx).barcode()
-                    barcodeDao.insertNewBarcode(com.projects.enzoftware.barcodereader.model.Barcode(thisCode.rawValue))
-                    // Be more careful with the names of models
+                    barcodeDao.insertNewBarcode(BarcodeEntity(thisCode.rawValue))
                 }
                 noButton  {
                     toast("Sorry :(")

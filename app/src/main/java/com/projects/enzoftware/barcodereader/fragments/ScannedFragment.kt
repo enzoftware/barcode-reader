@@ -15,7 +15,7 @@ import com.projects.enzoftware.barcodereader.R
 import com.projects.enzoftware.barcodereader.adapter.RecyclerViewAdapter
 import com.projects.enzoftware.barcodereader.db.BarcodeDao
 import com.projects.enzoftware.barcodereader.db.BarcodeRoomDatabase
-import com.projects.enzoftware.barcodereader.model.Barcode
+import com.projects.enzoftware.barcodereader.model.BarcodeEntity
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.ctx
@@ -30,7 +30,7 @@ import org.jetbrains.anko.yesButton
  */
 class ScannedFragment : Fragment() {
 
-    private var barcode_list : ArrayList<Barcode> = ArrayList()
+    private var barcode_Entity_list : ArrayList<BarcodeEntity> = ArrayList()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -39,15 +39,15 @@ class ScannedFragment : Fragment() {
         val recycler = view!!.findViewById<RecyclerView>(R.id.recyclerViewBarcodes)
         val btnDeleteAll = view.findViewById<ImageButton>(R.id.delete_all)
         val barcodeDao : BarcodeDao = BarcodeRoomDatabase.getInstance(ctx).barcode()
-        barcodeDao.getAllBarcodes().observe(this, Observer { barcode : List<Barcode>? ->
-            printBarcodes(barcode as ArrayList<Barcode>,recycler,ctx)
+        barcodeDao.getAllBarcodes().observe(this, Observer { barcodeEntity : List<BarcodeEntity>? ->
+            printBarcodes(barcodeEntity as ArrayList<BarcodeEntity>,recycler,ctx)
         })
-        printBarcodes(barcode_list,recycler,ctx)
+        printBarcodes(barcode_Entity_list,recycler,ctx)
         btnDeleteAll.setOnClickListener {
             alert("Hey, estas seguro que quieres eliminar todos los registros? "){
                 yesButton {
                     barcodeDao.cleanDB()
-                    printBarcodes(barcode_list,recycler,ctx)
+                    printBarcodes(barcode_Entity_list,recycler,ctx)
                     toast("Registros eliminados")
                 }
                 noButton  {
@@ -58,7 +58,7 @@ class ScannedFragment : Fragment() {
         return view
     }
 
-    private fun printBarcodes(list: ArrayList<Barcode>, recycler: RecyclerView, context: Context){
+    private fun printBarcodes(list: ArrayList<BarcodeEntity>, recycler: RecyclerView, context: Context){
         recycler.layoutManager = LinearLayoutManager(context)
         recycler.hasFixedSize()
         recycler.adapter = RecyclerViewAdapter(context,list)

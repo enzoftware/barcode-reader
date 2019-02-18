@@ -27,7 +27,7 @@ class AboutFragment : Fragment() {
 
         val aboutPage = AboutPage(activity)
                 .isRTL(false)
-                .setDescription("Barcode Reader is a simple android app for reading barcodes from products and store in a SQLite3 DB, for educational purpose")
+                .setDescription("BarcodeEntity Reader is a simple android app for reading barcodes from products and store in a SQLite3 DB, for educational purpose")
                 .setImage(R.drawable.eyesopen)
                 .addItem(versionElement)
                 .addGroup("Connect with me")

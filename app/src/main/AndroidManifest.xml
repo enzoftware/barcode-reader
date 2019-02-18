@@ -20,7 +20,7 @@
         <activity android:name=".MainActivity">
             <meta-data
                 android:name="com.google.android.gms.vision.DEPENDENCIES"
-                android:value="barcode" />
+                android:value="barcodeEntity" />
         </activity>
         <activity android:name=".WelcomeActivity">
             <intent-filter>
