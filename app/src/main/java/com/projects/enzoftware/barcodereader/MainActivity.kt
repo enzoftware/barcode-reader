@@ -3,6 +3,7 @@ package com.projects.enzoftware.barcodereader
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
+import com.google.firebase.FirebaseApp
 import com.projects.enzoftware.barcodereader.fragments.AboutFragment
 import com.projects.enzoftware.barcodereader.fragments.ReaderFragment
 import com.projects.enzoftware.barcodereader.fragments.ScannedFragment
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        FirebaseApp.initializeApp(this)
         toolbar = supportActionBar
         toolbar!!.title = getString(R.string.app_name)
         startFragmentTransaction(WelcomeFragment())

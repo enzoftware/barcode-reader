@@ -15,8 +15,14 @@
         android:icon="@drawable/bar"
         android:label="@string/app_name"
         android:roundIcon="@drawable/bar"
+
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:name=".App"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="barcode" />
         <activity android:name=".MainActivity">
             <meta-data
                 android:name="com.google.android.gms.vision.DEPENDENCIES"
@@ -29,7 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListActivity"></activity>
     </application>
 
 </manifest>

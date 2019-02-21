@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "597458244159",
+    "firebase_url": "https://barcode-reader-9b87d.firebaseio.com",
+    "project_id": "barcode-reader-9b87d",
+    "storage_bucket": "barcode-reader-9b87d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597458244159:android:1e74567c00c2fc41",
+        "android_client_info": {
+          "package_name": "com.projects.enzoftware.barcodereader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597458244159-d94nsmhklmpghtaeb0r1snkebr82hccs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.projects.enzoftware.barcodereader",
+            "certificate_hash": "42f310ffb2457b410b691536483401f3e1356431"
+          }
+        },
+        {
+          "client_id": "597458244159-3p5jku0it0rnbo8ahavcah8488shloej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxIYZVtQeXGV1T-5l5TCdSBig3oObMB4I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597458244159-3p5jku0it0rnbo8ahavcah8488shloej.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

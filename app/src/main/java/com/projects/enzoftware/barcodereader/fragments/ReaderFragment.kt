@@ -17,9 +17,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode
+import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOptions
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.projects.enzoftware.barcodereader.R
 import com.projects.enzoftware.barcodereader.db.BarcodeDao
 import com.projects.enzoftware.barcodereader.db.BarcodeRoomDatabase
@@ -38,8 +43,9 @@ import java.util.*
 class ReaderFragment : Fragment() {
 
     private val captureCode = 1578
-    private var pictureImagePath = ""
-    lateinit var barcodeDao : BarcodeDao
+    private lateinit var pictureImagePath : String
+    private lateinit var barcodeDao : BarcodeDao
+
     @SuppressLint("SimpleDateFormat")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -49,9 +55,6 @@ class ReaderFragment : Fragment() {
         barcodeDao = BarcodeRoomDatabase.getInstance(ctx).barcode()
 
         btnRequest.setOnClickListener {
-
-            // TEST TO CHECK IF DAO WORKS
-            barcodeDao.insertNewBarcode(BarcodeEntity("51515151515151515"))
 
             // For Android N and above.
             val builder : StrictMode.VmPolicy.Builder = StrictMode.VmPolicy.Builder()
@@ -84,32 +87,39 @@ class ReaderFragment : Fragment() {
     }
 
 
-    private fun decodeBarcode(barcodeImage : Bitmap){
-        val detector = BarcodeDetector.Builder(activity)
-                .setBarcodeFormats(Barcode.ALL_FORMATS)
+    private fun decodeBarcode(bitmap : Bitmap){
+        val options = FirebaseVisionBarcodeDetectorOptions.Builder()
+                .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_ALL_FORMATS)
                 .build()
-        if (!detector.isOperational){
-            longToast(R.string.not_setup_detector)
-        }
+        val detector = FirebaseVision.getInstance().getVisionBarcodeDetector(options)
+        val image = FirebaseVisionImage.fromBitmap(bitmap)
+        detector.detectInImage(image)
+                .addOnSuccessListener {
+                    for (firebaseBarcode in it) {
 
-        val frame = Frame.Builder().setBitmap(barcodeImage).build()
-        val barcodeList : SparseArray<Barcode> = detector.detect(frame)
+                        when (firebaseBarcode.valueType) {
+                            FirebaseVisionBarcode.TYPE_URL -> firebaseBarcode.url
+                            FirebaseVisionBarcode.TYPE_CONTACT_INFO -> firebaseBarcode.contactInfo
+                            FirebaseVisionBarcode.TYPE_WIFI -> firebaseBarcode.wifi
+                        }
 
-        if (barcodeList.size() > 0){
-            val thisCode = barcodeList.valueAt(0)
-            alert("Hey, tu codigo de barras es ${thisCode.rawValue} , quisieras guardarlo?"){
-                yesButton {
-                    barcodeDao.insertNewBarcode(BarcodeEntity(thisCode.rawValue))
+                        alert("Hey, tu codigo de barras es ${firebaseBarcode.displayValue} , quisieras guardarlo?"){
+                            yesButton {
+                                barcodeDao.insertNewBarcode(BarcodeEntity(firebaseBarcode.displayValue!!))
+                            }
+                            noButton  {
+                                toast("Sorry :(")
+                            }
+                        }.show()
+                    }
                 }
-                noButton  {
-                    toast("Sorry :(")
+                .addOnFailureListener {
+                    it.printStackTrace()
+                    longToast(R.string.barcode_not_found)
                 }
-            }.show()
-
-        }else{
-            longToast(R.string.barcode_not_found)
-        }
+                .addOnCompleteListener {
+                    toast("Listo!!")
+                }
     }
-
-
 }
+
